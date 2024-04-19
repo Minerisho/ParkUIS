@@ -42,6 +42,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+AUTH_USER_MODEL = 'users.Usuario'
+
 ROOT_URLCONF = 'Parkuis.urls'
 
 TEMPLATES = [
