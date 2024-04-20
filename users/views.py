@@ -13,7 +13,7 @@ from rest_framework.authentication import SessionAuthentication, TokenAuthentica
 from rest_framework.permissions import IsAuthenticated
 
 
-
+#--------------------------------Login--------------------------------
 @api_view(['POST'])
 def login(request):
     usuario = get_object_or_404(Usuario, email=request.data['email'])
