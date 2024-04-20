@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .serializers import UsuarioSerializer
+from .serializers import UsuarioSerializer, ChangePasswordSerializer
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from .models import Usuario
@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.decorators import authentication_classes, permission_classes
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+
 
 
 @api_view(['POST'])
@@ -24,9 +25,12 @@ def login(request):
     return Response({"token":token.key, "usuario": serializer.data})
 
 #--------------------------------Logout--------------------------------
+
 @api_view(['POST'])
+@authentication_classes([TokenAuthentication])
 def logout(request):
-    return Response({})
+    request.user.auth_token.delete()
+    return Response({"detail": "Sesión cerrada correctamente."})
 #--------------------------------Signup--------------------------------
 @api_view(['POST'])
 def signup(request):
@@ -44,9 +48,15 @@ def signup(request):
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def test_token(request):
-    
-    return Response("Token autenticado correctamente para {}".format(request.usuario.email))
+    return Response("Token autenticado correctamente para {}".format(request.user.email))
 #--------------------------------change_pass--------------------------------
 @api_view(['PUT'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def change_pass(request):
-    return Response({})
+    serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"detail": "Se ha cambiado la contraseña correctamente."})
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

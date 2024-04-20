@@ -42,15 +42,17 @@ class UsuarioManager(BaseUserManager):
         return self._create_user(email, password, nombres, apellidos, num_cel, rol, **extra_fields)
     
 
+    
+
 class Usuario(AbstractBaseUser, PermissionsMixin):
     # password, last_login, is_active ya vienen incluído en la promo con un 10% de descuento usando la tarjeta falabella
     email = models.EmailField(unique=True, max_length=200, db_index=True)
     nombres = models.CharField(max_length=200)
     apellidos = models.CharField(max_length=200)
-    CC = models.BigIntegerField(unique=True)
-    num_cel = models.BigIntegerField(unique=True)
+    CC = models.BigIntegerField(unique=True, verbose_name=("número de cédula"))
+    num_cel = models.BigIntegerField(unique=True, verbose_name=("número de celular"))
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    rol = models.ForeignKey(to = Rol , verbose_name=("Rol"), on_delete=models.CASCADE)
+    rol = models.ForeignKey(to = Rol, on_delete=models.CASCADE)
     objects = UsuarioManager()
     
     is_active = models.BooleanField(default=True)
