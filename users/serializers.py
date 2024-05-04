@@ -6,7 +6,7 @@ from rest_framework.exceptions import ValidationError
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = Usuario
-        fields = ['id', 'email', 'nombres', 'apellidos', 'rol', 'num_cel', 'CC', 'password']
+        fields = ['id', 'email', 'nombres', 'apellidos', 'num_cel', 'CC', 'password']
         read_only_fields = ['fecha_creacion']
 
     def create(self, validated_data):

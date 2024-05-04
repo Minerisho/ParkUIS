@@ -20,7 +20,7 @@ def login(request):
     if not usuario.check_password(request.data['password']):
         return Response({"detail":"Contraseña incorrecta."}, status=status.HTTP_404_NOT_FOUND)
     
-    token, created=Token.objects.get_or_create(user = usuario)
+    token, created = Token.objects.get_or_create(user = usuario)
     serializer = UsuarioSerializer(instance=usuario)
     return Response({"token":token.key, "usuario": serializer.data})
 
@@ -40,8 +40,7 @@ def signup(request):
         usuario = Usuario.objects.get(email = request.data['email'])
         usuario.set_password(request.data['password'])
         usuario.save()
-        token = Token.objects.create(user = usuario)
-        return Response({"token":token.key, "usuario": serializer.data})
+        return Response({ "usuario": serializer.data}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 #--------------------------------test_token--------------------------------
 @api_view(['GET'])
