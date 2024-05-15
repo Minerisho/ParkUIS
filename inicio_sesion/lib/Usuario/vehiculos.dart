@@ -80,7 +80,9 @@ class _VehiculoPageState extends State<VehiculoPage> {
                   children: [
                     Text(
                       'Vehículos Asociados:',
-                      style: TextStyle(fontSize: 20),
+                      style: TextStyle(
+                          fontSize: 24,
+                          color: Color.fromARGB(255, 136, 142, 116)),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(height: 8),
@@ -100,9 +102,14 @@ class _VehiculoPageState extends State<VehiculoPage> {
                                           builder: (BuildContext context) {
                                             return AlertDialog(
                                               title: Text(
-                                                  'Opciones de Vehículo \n ${vehiculo.modelo}'),
-                                              content: Column(
+                                                'Opciones del vehículo \n ${vehiculo.placa}',
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              content: Row(
                                                 mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
                                                 children: [
                                                   ElevatedButton(
                                                     onPressed: () {
@@ -112,8 +119,9 @@ class _VehiculoPageState extends State<VehiculoPage> {
                                                     },
                                                     style: ElevatedButton
                                                         .styleFrom(
-                                                      primary: Color.fromARGB(
-                                                          255, 103, 165, 62),
+                                                      backgroundColor:
+                                                          Color.fromARGB(255,
+                                                              103, 165, 62),
                                                     ),
                                                     child: Text('Editar'),
                                                   ),
@@ -125,8 +133,9 @@ class _VehiculoPageState extends State<VehiculoPage> {
                                                     },
                                                     style: ElevatedButton
                                                         .styleFrom(
-                                                      primary: Color.fromARGB(
-                                                          255, 103, 165, 62),
+                                                      backgroundColor:
+                                                          Color.fromARGB(255,
+                                                              103, 165, 62),
                                                     ),
                                                     child: Text('Eliminar'),
                                                   ),
@@ -138,13 +147,15 @@ class _VehiculoPageState extends State<VehiculoPage> {
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          color: Colors.white,
+                                          color:
+                                              Color.fromARGB(255, 45, 49, 51),
                                           borderRadius:
                                               BorderRadius.circular(10.0),
                                           boxShadow: [
                                             BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
+                                              color: Color.fromARGB(
+                                                      255, 58, 61, 52)
+                                                  .withOpacity(0.5),
                                               spreadRadius: 2,
                                               blurRadius: 5,
                                               offset: Offset(0, 3),
@@ -157,11 +168,15 @@ class _VehiculoPageState extends State<VehiculoPage> {
                                         child: ListTile(
                                           title: Text(
                                             vehiculo.placa,
+                                            style:
+                                                TextStyle(color: Colors.white),
                                             textAlign: TextAlign.center,
                                           ),
                                           subtitle: Text(
                                             'Modelo: ${vehiculo.modelo ?? 'N/A'}\nTipo: ${vehiculo.tipoVehiculo}\nMarca: ${vehiculo.marca}',
                                             textAlign: TextAlign.center,
+                                            style:
+                                                TextStyle(color: Colors.white),
                                           ),
                                         ),
                                       ),

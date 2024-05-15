@@ -83,7 +83,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -98,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               TextField(
+                style: TextStyle(color: Colors.white),
                 controller: usuarioController,
                 decoration: InputDecoration(
                   labelText: 'Usuario',
@@ -113,6 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 16),
               TextField(
+                style: TextStyle(color: Colors.white),
                 controller: contrasenaController,
                 obscureText: _isObscure,
                 decoration: InputDecoration(
@@ -143,12 +144,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed:
                     enviarDatosAlServidor, // Llamar al método para enviar datos
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 103, 165, 62),
+                  backgroundColor: Color.fromARGB(255, 103, 165, 62),
                 ),
                 child: Text('Iniciar Sesión'),
               ),
               SizedBox(height: 32),
-              Text('¿No tienes una cuenta?'),
+              Text(
+                '¿No tienes una cuenta?',
+                style: TextStyle(color: Colors.white),
+              ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -157,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 103, 165, 62),
+                  backgroundColor: Color.fromARGB(255, 103, 165, 62),
                 ),
                 child: Text('Registrarse'),
               ),

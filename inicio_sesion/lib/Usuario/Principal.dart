@@ -49,13 +49,13 @@ class _PrincipalUserState extends State<PrincipalUser> {
             icon: Icon(Icons.directions_car),
             label: 'Vehículos',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.history),
-          // ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green[800],
         onTap: _onItemTapped,
+        backgroundColor: const Color.fromARGB(
+            255, 103, 165, 62), // Color de fondo del BottomNavigationBar
+        fixedColor:
+            Colors.white, // Color del cuadrado seleccionado (más oscuro)
       ),
     );
   }

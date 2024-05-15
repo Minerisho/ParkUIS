@@ -53,26 +53,55 @@ class _DatosUsuarioPageState extends State<DatosUsuarioPage> {
             )
           : Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              child: Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      'Correo: $email',
-                      style: TextStyle(fontSize: 16),
+                    SizedBox(height: 8),
+                    Container(
+                      padding: EdgeInsets.all(16.0),
+                      margin: EdgeInsets.only(bottom: 16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[900], // Fondo gris oscuro
+                        borderRadius:
+                            BorderRadius.circular(10.0), // Bordes redondeados
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            '$email',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white), // Texto blanco
+                          ),
+                          SizedBox(height: 8), // Espacio entre los textos
+                          Text(
+                            '${nombres} $apellidos',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white), // Texto blanco
+                          ),
+                          SizedBox(height: 8), // Espacio entre los textos
+                          Text(
+                            'Cédula: ${cc}',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white), // Texto blanco
+                          ),
+                          SizedBox(height: 8), // Espacio entre los textos
+                          Text(
+                            'Teléfono: ${numCel}',
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white), // Texto blanco
+                          ),
+                        ],
+                      ),
                     ),
-                    Text(
-                      'Nombre: ${nombres} $apellidos',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      'Cédula: ${cc}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      'Teléfono: ${numCel}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ]),
+                  ],
+                ),
+              ),
             ),
     );
   }
