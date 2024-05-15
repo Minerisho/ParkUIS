@@ -1,8 +1,7 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, prefer_for_elements_to_map_fromiterable, avoid_print, deprecated_member_use, use_key_in_widget_constructors, library_private_types_in_public_api, unnecessary_string_interpolations, prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables
+// ignore_for_file: prefer_const_constructors
 
-import 'package:inicio_sesion/Home.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:inicio_sesion/Home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +44,11 @@ class MyApp extends StatelessWidget {
         ),
         textSelectionTheme: TextSelectionThemeData(
           cursorColor: Color.fromARGB(255, 103, 165, 62),
+        ),
+        scaffoldBackgroundColor: Colors.grey[900], // Color de fondo gris oscuro
+        textTheme: TextTheme(
+          bodyText1: TextStyle(color: Colors.white), // Letra blanca
+          bodyText2: TextStyle(color: Colors.white), // Letra blanca
         ),
       ),
     );

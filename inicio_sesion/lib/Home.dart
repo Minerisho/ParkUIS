@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors, use_build_context_synchronously
 
-import 'dart:convert'; // Importar para manejar JSON
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:inicio_sesion/Usuario/Principal.dart';
 import 'package:inicio_sesion/registro.dart';
 import 'package:http/http.dart' as http;
-import 'package:inicio_sesion/estudiante.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -25,8 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Construir el mapa con los datos del usuario
     final Map<String, String> datosUsuario = {
-      'email': "$usuario",
-      'password': "$contrasena",
+      'email': usuario,
+      'password': contrasena,
     };
 
     try {
@@ -50,19 +50,18 @@ class _HomeScreenState extends State<HomeScreen> {
       });
 
       print('result = $result');
+      print('statuscode: ${response.statusCode}');
 
-      Map<String, dynamic> jsonData = jsonDecode(result);
-      int rol = jsonData['usuario']['rol'];
-      if (rol == 1) {
-        //En caso de que sea Usuario comun
+      if (response.statusCode != 404) {
+        //En caso de que si pase
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => EstudiantePage(
+              builder: (context) => PrincipalUser(
                     result: result,
                   )),
         );
-      } else if (rol == 2) {}
+      }
     } catch (e) {
       setState(() {
         result = 'Error al enviar los datos: $e';
@@ -120,7 +119,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   labelText: 'Contraseña',
                   suffixIcon: IconButton(
                     icon: Icon(
-                        _isObscure ? Icons.visibility : Icons.visibility_off),
+                      _isObscure ? Icons.visibility_off : Icons.visibility,
+                      color: _isObscure ? Colors.grey : Colors.green,
+                    ),
                     onPressed: () {
                       setState(() {
                         _isObscure = !_isObscure;

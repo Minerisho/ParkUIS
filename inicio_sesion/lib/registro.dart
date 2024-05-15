@@ -63,7 +63,8 @@ class _RegistroScreenState extends State<RegistroScreen> {
         result = response.body;
       });
       print('Resultado: $result');
-      if (response.statusCode == 200) {
+      print("status code: ${response.statusCode}");
+      if (response.statusCode == 201) {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -93,8 +94,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Error'),
-            content: Text(
-                'No se pudo crear la cuenta. Por favor, inténtalo de nuevo.'),
+            content: Text('No se pudo crear la cuenta debido a que $result'),
             actions: [
               TextButton(
                 onPressed: () {
