@@ -1,13 +1,15 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, library_private_types_in_public_api
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:inicio_sesion/Usuario/Principal.dart';
+import 'package:inicio_sesion/Usuario/BarraInferior.dart';
+import 'package:inicio_sesion/clases/user.dart';
 import 'package:inicio_sesion/registro.dart';
 import 'package:http/http.dart' as http;
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -51,9 +53,32 @@ class _HomeScreenState extends State<HomeScreen> {
 
       print('result = $result');
       print('statuscode: ${response.statusCode}');
-
-      if (response.statusCode != 404) {
+      if (result == '{"detail":"No encontrado."}') {
+        showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (BuildContext context) {
+            return const AlertDialog(
+              title: Text('Advertencia'),
+              content: Text('Usuario no encontrado'),
+            );
+          },
+        );
+      } else if (result == '{"detail":"ContraseÃ±a incorrecta."}') {
+        showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (BuildContext context) {
+            return const AlertDialog(
+              title: Text('Advertencia'),
+              content: Text('Contraseña incorrecta'),
+            );
+          },
+        );
+      } else {
         //En caso de que si pase
+        final Map<String, dynamic> jsonData = jsonDecode(result);
+        UserSession().token = jsonData['token'];
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -73,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (BuildContext context) {
           return const AlertDialog(
             title: Text('Advertencia'),
-            content: Text('Usuario o contraseña incorrecto'),
+            content: Text('Contraseña incorrecta'),
           );
         },
       );
@@ -153,6 +178,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 '¿No tienes una cuenta?',
                 style: TextStyle(color: Colors.white),
               ),
+              SizedBox(height: 8),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(

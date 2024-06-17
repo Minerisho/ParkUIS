@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api
 
 import 'dart:convert';
 
@@ -31,6 +31,8 @@ class _DatosUsuarioPageState extends State<DatosUsuarioPage> {
   }
 
   Future<void> processHeredatedData(String result) async {
+    // de ser necesario decodificar esto deberia servir, tomar con pinzas
+    //final String decodedResult = utf8.decode(result);
     Map<String, dynamic> jsonData = jsonDecode(result);
     token = jsonData['token'];
     email = jsonData['usuario']['email'];
@@ -62,7 +64,7 @@ class _DatosUsuarioPageState extends State<DatosUsuarioPage> {
                       padding: EdgeInsets.all(16.0),
                       margin: EdgeInsets.only(bottom: 16.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey[900], // Fondo gris oscuro
+                        color: const Color.fromARGB(255, 45, 49, 51),
                         borderRadius:
                             BorderRadius.circular(10.0), // Bordes redondeados
                       ),
@@ -70,28 +72,28 @@ class _DatosUsuarioPageState extends State<DatosUsuarioPage> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            '$email',
+                            email,
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.white), // Texto blanco
                           ),
                           SizedBox(height: 8), // Espacio entre los textos
                           Text(
-                            '${nombres} $apellidos',
+                            '$nombres $apellidos',
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.white), // Texto blanco
                           ),
                           SizedBox(height: 8), // Espacio entre los textos
                           Text(
-                            'Cédula: ${cc}',
+                            'Cédula: $cc',
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.white), // Texto blanco
                           ),
                           SizedBox(height: 8), // Espacio entre los textos
                           Text(
-                            'Teléfono: ${numCel}',
+                            'Teléfono: $numCel',
                             style: TextStyle(
                                 fontSize: 16,
                                 color: Colors.white), // Texto blanco

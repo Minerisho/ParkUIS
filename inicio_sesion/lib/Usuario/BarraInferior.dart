@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:inicio_sesion/Usuario/vehiculos.dart';
 import 'package:inicio_sesion/Usuario/DatosUsuario.dart';
@@ -33,7 +35,7 @@ class _PrincipalUserState extends State<PrincipalUser> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Información de usuario'),
+        title: const Text('Información de usuario'),
       ),
       body: IndexedStack(
         index: _selectedIndex,
@@ -54,8 +56,7 @@ class _PrincipalUserState extends State<PrincipalUser> {
         onTap: _onItemTapped,
         backgroundColor: const Color.fromARGB(
             255, 103, 165, 62), // Color de fondo del BottomNavigationBar
-        fixedColor:
-            Colors.white, // Color del cuadrado seleccionado (más oscuro)
+        fixedColor: Colors.white, // Color del cuadrado seleccionado
       ),
     );
   }

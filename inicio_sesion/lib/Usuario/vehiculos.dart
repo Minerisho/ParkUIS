@@ -1,10 +1,11 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:inicio_sesion/clases/user.dart';
 import 'package:inicio_sesion/clases/vehiculo.dart';
+import 'package:inicio_sesion/Usuario/Funciones/editar_vehiculo.dart';
 
 class VehiculoPage extends StatefulWidget {
   final String result;
@@ -16,10 +17,9 @@ class VehiculoPage extends StatefulWidget {
 }
 
 class _VehiculoPageState extends State<VehiculoPage> {
-  late String token;
   bool isLoading = true;
-
   List<Vehiculo> result = [];
+
   @override
   void initState() {
     super.initState();
@@ -29,7 +29,7 @@ class _VehiculoPageState extends State<VehiculoPage> {
 
   Future<void> processHeredatedData(String result) async {
     Map<String, dynamic> jsonData = jsonDecode(result);
-    token = jsonData['token'];
+    UserSession().token = jsonData['token']; // Guardar el token en UserSession
 
     setState(() {
       isLoading = false;
@@ -39,16 +39,17 @@ class _VehiculoPageState extends State<VehiculoPage> {
   Future<void> obtenerVehiculos() async {
     try {
       final response = await http.get(
-          Uri.parse(
-              'https://parkuis.onrender.com/users/vehiculo/mis-vehiculos'),
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Authorization': 'Token $token',
-          });
-      // Actualizar el estado con la respuesta del servidor
+        Uri.parse('https://parkuis.onrender.com/users/vehiculo/mis-vehiculos'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Token ${UserSession().token}',
+        },
+      );
+
       if (response.statusCode == 200) {
-        final List<dynamic> jsonData = jsonDecode(response.body);
+        final String responseBody = utf8.decode(response.bodyBytes);
+        final List<dynamic> jsonData = jsonDecode(responseBody);
         final List<Vehiculo> vehiculos =
             jsonData.map((item) => Vehiculo.fromJson(item)).toList();
 
@@ -64,13 +65,22 @@ class _VehiculoPageState extends State<VehiculoPage> {
     }
   }
 
+  void _navigateToEditarVehiculo(Vehiculo vehiculo) async {
+    bool? result = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => EditarVehiculoPage(vehiculo: vehiculo),
+      ),
+    );
+    if (result == true) {
+      obtenerVehiculos();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
+          ? const Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: Center(
@@ -78,16 +88,16 @@ class _VehiculoPageState extends State<VehiculoPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'Vehículos Asociados:',
                       style: TextStyle(
                           fontSize: 24,
                           color: Color.fromARGB(255, 136, 142, 116)),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     result.isEmpty
-                        ? Center(child: CircularProgressIndicator())
+                        ? const Center(child: CircularProgressIndicator())
                         : Expanded(
                             child: ListView.builder(
                               itemCount: result.length,
@@ -113,9 +123,10 @@ class _VehiculoPageState extends State<VehiculoPage> {
                                                 children: [
                                                   ElevatedButton(
                                                     onPressed: () {
-                                                      // Acción del primer botón
                                                       Navigator.of(context)
                                                           .pop();
+                                                      _navigateToEditarVehiculo(
+                                                          vehiculo);
                                                     },
                                                     style: ElevatedButton
                                                         .styleFrom(
@@ -127,9 +138,9 @@ class _VehiculoPageState extends State<VehiculoPage> {
                                                   ),
                                                   ElevatedButton(
                                                     onPressed: () {
-                                                      // Acción del segundo botón
                                                       Navigator.of(context)
                                                           .pop();
+                                                      // Acción del botón Eliminar
                                                     },
                                                     style: ElevatedButton
                                                         .styleFrom(
@@ -151,16 +162,6 @@ class _VehiculoPageState extends State<VehiculoPage> {
                                               Color.fromARGB(255, 45, 49, 51),
                                           borderRadius:
                                               BorderRadius.circular(10.0),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Color.fromARGB(
-                                                      255, 58, 61, 52)
-                                                  .withOpacity(0.5),
-                                              spreadRadius: 2,
-                                              blurRadius: 5,
-                                              offset: Offset(0, 3),
-                                            ),
-                                          ],
                                         ),
                                         margin:
                                             EdgeInsets.symmetric(vertical: 4.0),
@@ -173,7 +174,7 @@ class _VehiculoPageState extends State<VehiculoPage> {
                                             textAlign: TextAlign.center,
                                           ),
                                           subtitle: Text(
-                                            'Modelo: ${vehiculo.modelo ?? 'N/A'}\nTipo: ${vehiculo.tipoVehiculo}\nMarca: ${vehiculo.marca}',
+                                            'Modelo: ${vehiculo.modelo ?? 'N/A'}\nTipo: ${vehiculo.tipoVehiculo}\nMarca: ${vehiculo.marca} \n Color: ${vehiculo.color}',
                                             textAlign: TextAlign.center,
                                             style:
                                                 TextStyle(color: Colors.white),

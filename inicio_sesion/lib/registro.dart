@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, library_private_types_in_public_api
 
 import 'dart:convert';
 
@@ -9,6 +9,8 @@ import 'package:http/http.dart' as http;
 import 'package:inicio_sesion/Home.dart';
 
 class RegistroScreen extends StatefulWidget {
+  const RegistroScreen({super.key});
+
   @override
   _RegistroScreenState createState() => _RegistroScreenState();
 }
@@ -204,7 +206,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromARGB(255, 103, 165, 62),
+                  backgroundColor: Color.fromARGB(255, 103, 165, 62),
                 ),
                 child: Text('Registrarse'),
               ),
