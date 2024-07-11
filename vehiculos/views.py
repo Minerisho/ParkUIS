@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import *
+from .serializers import VehiculoSerializer, TipoSerializer
 from .models import Vehiculo
 from rest_framework import status, generics
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
@@ -54,3 +54,14 @@ def editar_vehiculo(request, pk):
     serializer.save()
     
     return Response({"detail":"vehiculo editado correctamente", "vehiculo":serializer.data}, status=status.HTTP_200_OK)
+
+#---------------Eliminar vehículo--------------
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+def eliminar(request, pk = None):
+    if not pk:
+        return Response({"error":"no proporcionaste la id del vehiculo"}, status=status.HTTP_400_BAD_REQUEST)
+    vehiculo = get_object_or_404(Vehiculo, pk=pk)
+    vehiculo.delete()
+    return Response({"detail":"vehiculo eliminado"}, status=status.HTTP_200_OK)

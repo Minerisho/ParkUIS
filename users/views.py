@@ -20,7 +20,7 @@ def login(request):
     if not usuario.check_password(request.data['password']):
         return Response({"detail":"Contraseña incorrecta."}, status=status.HTTP_404_NOT_FOUND)
     
-    token, created = Token.objects.get_or_create(user = usuario)
+    token, __ = Token.objects.get_or_create(user = usuario)
     serializer = UsuarioSerializer(instance=usuario)
     return Response({"token":token.key, "usuario": serializer.data})
 
@@ -49,7 +49,7 @@ def signup(request):
 def test_token(request):
     return Response("Token autenticado correctamente para {}".format(request.user.email))
 #--------------------------------change_pass--------------------------------
-@api_view(['PUT'])
+@api_view(['PATCH'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def change_pass(request):

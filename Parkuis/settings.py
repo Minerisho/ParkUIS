@@ -32,9 +32,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_extensions',
     'users',
     'vehiculos',
-    'Home'
+    'Home',
+    'establecimiento',
+    'vigilante',
+    'pase'
 ]
 
 MIDDLEWARE = [
@@ -77,7 +81,8 @@ WSGI_APPLICATION = 'Parkuis.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(
         default='sqlite:///db.sqlite3',
-        conn_max_age=600
+        conn_max_age=600,
+        
     )
 }
 
@@ -126,3 +131,10 @@ if not DEBUG:
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    'DEFAULT_CHARSET': 'utf-8',
+}

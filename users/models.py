@@ -31,11 +31,12 @@ class UsuarioManager(BaseUserManager):
         extra_fields.setdefault('is_active',True)
         extra_fields.setdefault('is_superuser',True)
         return self._create_user(email, password, nombres, apellidos, num_cel, **extra_fields)
-    
-
-    
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
+    SEXO_CHOICES = [
+        ('H', 'Hombre'),
+        ('M', 'Mujer'),
+    ]
     # password, last_login, is_active ya vienen incluídos
     email = models.EmailField(unique=True, max_length=200, db_index=True)
     nombres = models.CharField(max_length=200)
@@ -44,6 +45,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     num_cel = models.BigIntegerField(unique=True, verbose_name=("número de celular"))
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     objects = UsuarioManager()
+    sexo = models.CharField(max_length=1, choices=SEXO_CHOICES, default='H')
     
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
