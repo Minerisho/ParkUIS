@@ -42,12 +42,7 @@ def signup(request):
         usuario.save()
         return Response({ "usuario": serializer.data}, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#--------------------------------test_token--------------------------------
-@api_view(['GET'])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def test_token(request):
-    return Response("Token autenticado correctamente para {}".format(request.user.email))
+
 #--------------------------------change_pass--------------------------------
 @api_view(['PATCH'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
