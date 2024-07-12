@@ -65,6 +65,7 @@ class PaseViewSet(viewsets.ModelViewSet):
     
             vehiculos_serializados = VehiculoSerializer(vehiculos, many=True)
             pase.estado = 1
+            pase.save()
             return Response({'id_usuario': f'{usuario_id}', 'vehiculos':vehiculos_serializados.data}, status=status.HTTP_200_OK)    
         
         if pase.estado == 1:  #En proceso | Recibe el json del carro elegido
