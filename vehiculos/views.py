@@ -64,4 +64,4 @@ def eliminar(request, pk = None):
         return Response({"error":"no proporcionaste la id del vehiculo"}, status=status.HTTP_400_BAD_REQUEST)
     vehiculo = get_object_or_404(Vehiculo, pk=pk)
     vehiculo.delete()
-    return Response({"detail":"vehiculo eliminado"}, status=status.HTTP_200_OK)
+    return Response({"detail":"vehiculo eliminado"}, status=status.HTTP_200_OK) 

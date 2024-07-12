@@ -46,8 +46,8 @@ class PaseViewSet(viewsets.ModelViewSet):
             return Response({'id': pase_creado.pk}, status=status.HTTP_201_CREATED)
 
         else:
-            
-            pase_creado = Pase.objects.create(usuario_id = req_usuario_id) #Si lo crea un usuario, es un pase normal vacío
+            cedula = request.user.CC
+            pase_creado = Pase.objects.create(usuario_id = req_usuario_id, cc=cedula) #Si lo crea un usuario, es un pase normal vacío
             return Response({'id': pase_creado.pk}, status=status.HTTP_201_CREATED)
         
 
@@ -81,14 +81,14 @@ class PaseViewSet(viewsets.ModelViewSet):
             pase.estado += 1
             pase.save()
             return Response({'status': 'Pase establecido en uso', 'id':pase.pk, 'estado':pase.estado}, status=status.HTTP_200_OK)
-        elif pase.estado == 3: #En uso
+        elif pase.estado == 2: #En uso
             pase.hora_salida = timezone.now()            
             pase.estado += 1
             pase.save()
             return Response({'status': 'Pase completado', 'id':pase.pk, 'estado':pase.estado}, status=status.HTTP_200_OK)
         elif pase.estado == 3: #Completado
             return Response({'error': 'El pase ya fue completado', 'id':pase.pk, 'estado':pase.estado}, status=status.HTTP_400_BAD_REQUEST)
-        elif pase.estado == 3: #Perdido
+        elif pase.estado == 4: #Perdido
             return Response({'error': 'El pase está considerado como perdido y nunca fue completado', 'id':pase.pk, 'estado':pase.estado}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'error': 'El pase tiene un estado inválido', 'id_pase':pase.pk, 'estado':pase.estado}, status=status.HTTP_400_BAD_REQUEST)
