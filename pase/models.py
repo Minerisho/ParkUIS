@@ -7,8 +7,9 @@ class Pase(models.Model):
     usuario_id = models.IntegerField(null=True)
     json_vehiculo = models.JSONField("información del vehiculo a utilizar", default=dict, null=True, blank= True)
     nombre_vigilante = models.CharField(verbose_name="nombre del vigilante", max_length=50, null = True, blank= True, default=None)
-    estado = models.IntegerField(choices=[(0, "sin usar"), (1, "en uso"), (2, "completado"), (3, "perdido")], default=0)
+    estado = models.IntegerField(choices=[(0, "sin usar"), (1, "procesandose"), (2, "en uso"), (3, "completado"), (4, "perdido")], default=0)
     temporal = models.BooleanField(default=False)
+    cc = models.BigIntegerField('cédula', default=None, null=True, blank= True)
 
     class Meta:
         verbose_name = ("Pase")

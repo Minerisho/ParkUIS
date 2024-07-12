@@ -1,6 +1,7 @@
 from django.urls import path, re_path, include
 from . import views
 
+
 urlpatterns = [
     re_path('login', views.login, name='login'),
     re_path('signup', views.signup, name='registro'),
@@ -8,4 +9,5 @@ urlpatterns = [
     re_path('logout', views.logout, name='logout'),
     re_path('vehiculo/', include('vehiculos.urls')),
     re_path('', include('vigilante.urls')),
+    re_path(r'(?P<pk>\d+)$/ver_vehiculos', views.ver_vehiculos, name='ver lista de vehiculos')
 ]
