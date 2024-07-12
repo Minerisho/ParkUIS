@@ -64,7 +64,7 @@ class PaseViewSet(viewsets.ModelViewSet):
                 return Response({'error': 'No se encontraron vehículos para el id del usuario proporcionado.'}, status=status.HTTP_404_NOT_FOUND)
     
             vehiculos_serializados = VehiculoSerializer(vehiculos, many=True)
-            pase.estado += 1
+            pase.estado = 1
             return Response({'id_usuario': f'{usuario_id}', 'vehiculos':vehiculos_serializados.data}, status=status.HTTP_200_OK)    
         
         if pase.estado == 1:  #En proceso | Recibe el json del carro elegido
@@ -78,12 +78,12 @@ class PaseViewSet(viewsets.ModelViewSet):
          
             pase.hora_entrada = timezone.now()
 
-            pase.estado += 1
+            pase.estado = 2
             pase.save()
             return Response({'status': 'Pase establecido en uso', 'id':pase.pk, 'estado':pase.estado}, status=status.HTTP_200_OK)
         elif pase.estado == 2: #En uso
             pase.hora_salida = timezone.now()            
-            pase.estado += 1
+            pase.estado = 3
             pase.save()
             return Response({'status': 'Pase completado', 'id':pase.pk, 'estado':pase.estado}, status=status.HTTP_200_OK)
         elif pase.estado == 3: #Completado
@@ -96,7 +96,7 @@ class PaseViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['PATCH'], permission_classes = [IsVigilante])
     def perdido(self, request, pk=None):
         pase = self.get_object()
-        pase.estado = 3
+        pase.estado = 4
         pase.save()
         return Response({'status': 'Pase marcado como perdido', 'id':pase.pk}, status=status.HTTP_200_OK)
     
